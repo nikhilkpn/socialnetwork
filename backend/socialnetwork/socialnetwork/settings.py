@@ -38,11 +38,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'rest_framework'
+    'rest_framework',
+    'corsheaders',
+    'rest_framework_swagger',
+
+    #apps
+    'accounts',
+    'posts',
 
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # new
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,7 +60,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'socialnetwork.urls'
-
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000'
+]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -86,6 +95,20 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
+
+REST_FRAMEWORK = {                          
+    "DEFAULT_PERMISSION_CLASSES":
+        ["rest_framework.permissions.IsAuthenticated",],                          
+    
+    "DEFAULT_PARSER_CLASSES":
+        ["rest_framework.parsers.JSONParser",],                    
+    
+    "DEFAULT_AUTHENTICATION_CLASSES": [                    
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        ],
+    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
